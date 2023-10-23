@@ -8,26 +8,44 @@
  <title>👨🏻‍💻 ilPostino - mensajes directos | Sergio Ortega dev</title>
 
  <script type="module">
-  //const user = prompt("Hola, decime tu nombre")
+  let user = {
+   name: "",
+   msg: {
+    text: "",
+    date: ""
+   }
+  }
+  user.name = prompt("Hola, decime tu nombre")
 
   import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
   const socket = io()
 
-  const form = document.getElementById('form')
-  const input = document.getElementById('input')
-  const messages = document.getElementById('messages')
+  const $form = document.getElementById('form')
+  const $input = document.getElementById('input')
+  const $messages = document.getElementById('messages')
 
-  socket.on('chat message', (msg) => {
-   const item = `<li>${msg}</li>`
-   messages.insertAdjacentHTML('beforeend', item)
+  socket.on('chat message', (data) => {
+   if (data.name === user.name) {
+    const item = `<li class='chat-me'>${data.msg.text}<br/>${data.msg.date}</li>`
+    $messages.insertAdjacentHTML('beforeend', item)
+   } else {
+    const item = `<li>${data.name}<br/>
+     ${data.msg.text}<br/>
+     ${data.msg.date}</li>`
+    $messages.insertAdjacentHTML('beforeend', item)
+   }
   })
 
-  form.addEventListener('submit', (e) => {
+  $form.addEventListener('submit', (e) => {
    e.preventDefault()
 
-   if (input.value) {
-    socket.emit('chat message', input.value)
-    input.value = ""
+   if ($input.value) {
+    user.msg.text = $input.value
+    let time = new Date
+    user.msg.date = time.toLocaleString([], { hour: "2-digit", minute: "2-digit" })
+
+    socket.emit('chat message', user)
+    $input.value = ""
    }
   })
 
@@ -66,6 +84,11 @@
    width: 20rem;
    height: 100%;
    position: relative;
+  }
+
+  .chat-me {
+   text-align: right;
+   list-style: none;
   }
 
   #form {

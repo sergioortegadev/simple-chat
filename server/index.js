@@ -13,10 +13,11 @@ io.on("connection", (socket) => {
   console.log(` + User conectado +`);
 
   socket.on("disconnect", () => {
-    console.log(" - Usuario desconectado -");
+    console.log(` - Usuario desconectado -`);
   });
 
   socket.on("chat message", (msg) => {
+    console.log(`  - User: ${msg.name} emitió mensaje`);
     io.emit("chat message", msg);
   });
 });
