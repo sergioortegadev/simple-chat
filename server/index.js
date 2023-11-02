@@ -2,6 +2,7 @@ import express from "express";
 import logger from "morgan";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
+import "dotenv/config";
 
 const port = process.env.PORT ?? 3000;
 

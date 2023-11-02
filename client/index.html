@@ -91,6 +91,10 @@
    list-style: none;
   }
 
+  #messages {
+   padding-right: .5rem;
+  }
+
   #form {
    bottom: 0.5rem;
    display: flex;
@@ -134,7 +138,7 @@
  <section id="chat">
   <ul id="messages"></ul>
   <form id="form">
-   <input id="input" type="text" name="message" placeholder="Escribe un mensaje" autocomplete="off">
+   <input autofocus id="input" type="text" name="message" placeholder="Escribe un mensaje" autocomplete="off">
    <button type="submit">▶ enviar </button>
   </form>
  </section>
