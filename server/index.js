@@ -29,6 +29,10 @@ app.get("/", (req, res) => {
   res.sendFile(process.cwd() + "/client/index.html");
 });
 
+app.get("/assets/beep.mp3", (req, res) => {
+  res.sendFile(process.cwd() + "/client/assets/beep.mp3");
+});
+
 server.listen(port, () => {
   console.log(`▓▒ Server funcionando en puerto ${port} ▒▓`);
 });
