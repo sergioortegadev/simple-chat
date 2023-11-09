@@ -3,61 +3,10 @@
 
 <head>
  <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
  <meta name="HandheldFriendly" content="true" />
  <link rel="icon" type="image/x-icon" href="./favicon.ico">
  <title>👨🏻‍💻 ilPostino - mensajes directos | Sergio Ortega dev</title>
-
- <script type="module">
-  let user = {
-   name: "",
-   msg: {
-    text: "",
-    date: ""
-   }
-  }
-  const beep = new Audio('./assets/beep.mp3');
-
-  user.name = prompt("Hola, decime tu nombre")
-
-  import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
-  const socket = io()
-
-  const $form = document.getElementById('form')
-  const $input = document.getElementById('input')
-  const $messages = document.getElementById('messages')
-
-  socket.on('chat message', (data) => {
-   if (data.name === user.name) {
-    const item = `<li class='chat-me'>${data.msg.text}<br/>${data.msg.date}</li>`
-    $messages.insertAdjacentHTML('beforeend', item)
-
-   } else {
-    const item = `<li>${data.name}<br/>
-     ${data.msg.text}<br/>
-     ${data.msg.date}</li>`
-    $messages.insertAdjacentHTML('beforeend', item)
-    beep.play();
-   }
-  })
-
-  $form.addEventListener('submit', (e) => {
-   e.preventDefault()
-
-   if ($input.value) {
-    user.msg.text = $input.value
-    let time = new Date
-    user.msg.date = time.toLocaleString([], { hour: "2-digit", minute: "2-digit" })
-
-    socket.emit('chat message', user)
-    $input.value = ""
-   }
-  })
-
-
-
-
- </script>
 
 
  <style>
@@ -78,33 +27,62 @@
    display: grid;
    grid-template-rows: 1fr;
    place-content: center;
-   height: 90vh;
-   padding: 2rem 2rem 4rem 2rem;
+   height: 88vh;
+   padding: 1rem 2rem 2rem 2rem;
   }
 
   #chat {
    border: 1px solid #ccc;
    border-radius: .5rem;
    overflow: hidden;
-   width: 20rem;
+   width: 95vw;
    height: 100%;
    position: relative;
-  }
-
-  .chat-me {
-   text-align: right;
-   list-style: none;
+   overflow-y: scroll;
+   scroll-behavior: smooth;
   }
 
   #messages {
-   padding-right: .5rem;
+   display: flex;
+   flex-direction: column;
+   padding: 0 .5rem 0;
+   list-style-type: none;
+   overflow: hidden;
+  }
+
+  #messages p {
+   margin: 0;
+  }
+
+  .chat-me {
+   align-self: flex-end;
+   background-color: #395;
+   width: fit-content;
+   max-width: 80%;
+   padding: 0 .3rem 0;
+   margin: .3rem;
+   border-radius: .5rem;
+   text-align: right;
+  }
+
+  .chat-others {
+   align-self: flex-start;
+   background-color: #252525;
+   width: fit-content;
+   max-width: 80%;
+   padding: 0 .3rem 0;
+   margin: .3rem;
+   border-radius: .5rem;
+   text-align: right;
   }
 
   #form {
    display: flex;
-   bottom: 0.5rem;
-   position: absolute;
    height: 3rem;
+   width: 95vw;
+   margin: 0 auto;
+   position: fixed;
+   bottom: 1rem;
    left: 0;
    right: 0;
    padding: .5rem;
@@ -112,6 +90,7 @@
 
   #input {
    height: 2rem;
+   width: 100%;
    font-size: 1.1rem;
    border-radius: 3rem;
    border: 1px solid #09f;
@@ -139,13 +118,85 @@
   #form>button:hover {
    background: #0cf;
   }
+
+  ::-webkit-scrollbar {
+   display: none;
+  }
+
+  @media screen and (min-width: 800px) {
+   #chat {
+    width: 24rem;
+   }
+
+   #form {
+    width: 24rem;
+   }
+  }
  </style>
+
+ <script type="module">
+  import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
+  const socket = io()
+
+  const $form = document.getElementById('form')
+  const $input = document.getElementById('input')
+  const $messages = document.getElementById('messages')
+
+  let user = {
+   name: "",
+   msg: {
+    text: "",
+    date: ""
+   }
+  }
+
+  if (!localStorage.getItem("userName")) {
+   user.name = prompt("Hola, decime tu nombre");
+   localStorage.setItem("userName", user.name)
+  } else {
+   user.name = localStorage.getItem("userName")
+  }
+
+  const beep = new Audio('./assets/beep.mp3');
+  beep.volume = 0.75
+
+  socket.on('chat message', (data) => {
+   if (data.name === user.name) {
+    const item = `<div class='chat-me'><p>${data.msg.text}<br/><small>${data.msg.date}</small></p></div>`
+    $messages.insertAdjacentHTML('beforeend', item)
+
+   } else {
+    const item = `<div class='chat-others'><p><strong>${data.name}</strong><br/>
+     ${data.msg.text}<br/>
+     <small>${data.msg.date}</small></p></div>`
+    $messages.insertAdjacentHTML('beforeend', item);
+    $messages.scrollTop = $messages.scrollHeight
+    beep.play();
+   }
+  })
+
+  $form.addEventListener('submit', (e) => {
+   e.preventDefault()
+
+   if ($input.value) {
+    user.msg.text = $input.value
+    let time = new Date
+    user.msg.date = time.toLocaleString([], { hour: "2-digit", minute: "2-digit" })
+
+    socket.emit('chat message', user)
+    $input.value = ""
+   }
+  })
+ </script>
+
+
+
 </head>
 
 <body>
 
  <section id="chat">
-  <ul id="messages"></ul>
+  <div id="messages"></div>
   <form id="form">
    <input autofocus id="input" type="text" name="message" placeholder="Escribe un mensaje" autocomplete="off">
    <button type="submit">▶</button>
