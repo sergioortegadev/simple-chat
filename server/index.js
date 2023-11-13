@@ -8,17 +8,23 @@ const port = process.env.PORT ?? 3000;
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 2 * 60 * 1000,
+
+    skipMiddlewares: true,
+  },
+});
 
 io.on("connection", (socket) => {
-  console.log(` + User conectado +`);
+  // console.log(` + User conectado +`);
 
   socket.on("disconnect", () => {
-    console.log(` - Usuario desconectado -`);
+    // console.log(` - Usuario desconectado -`);
   });
 
   socket.on("chat message", (msg) => {
-    console.log(`  - User: ${msg.name} emitió mensaje`);
+    //console.log(`  - User: ${msg.name} emitió mensaje`);
     io.emit("chat message", msg);
   });
 });

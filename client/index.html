@@ -40,6 +40,7 @@
    position: relative;
    overflow-y: scroll;
    scroll-behavior: smooth;
+   transition: height 0.3s;
   }
 
   #messages {
@@ -54,27 +55,27 @@
    margin: 0;
   }
 
-  .chat-me {
-   align-self: flex-end;
-   background-color: #395;
+  .chat {
    width: fit-content;
    max-width: 80%;
    padding: 0 .3rem 0;
    margin: .3rem;
    border-radius: .5rem;
+  }
+
+  .me {
+   align-self: flex-end;
+   background-color: #4b7;
+  }
+
+  .others {
+   align-self: flex-start;
+  }
+
+  .chat-date {
    text-align: right;
   }
 
-  .chat-others {
-   align-self: flex-start;
-   background-color: #252525;
-   width: fit-content;
-   max-width: 80%;
-   padding: 0 .3rem 0;
-   margin: .3rem;
-   border-radius: .5rem;
-   text-align: right;
-  }
 
   #form {
    display: flex;
@@ -123,6 +124,12 @@
    display: none;
   }
 
+  @media screen and (max-height: 100px) {
+   #chat {
+    height: 50vh;
+   }
+  }
+
   @media screen and (min-width: 800px) {
    #chat {
     width: 24rem;
@@ -130,6 +137,18 @@
 
    #form {
     width: 24rem;
+   }
+  }
+
+  @media (prefers-color-scheme: light) {
+   .others {
+    background-color: #bbb;
+   }
+  }
+
+  @media (prefers-color-scheme: dark) {
+   .others {
+    background-color: #252525;
    }
   }
  </style>
@@ -141,6 +160,8 @@
   const $form = document.getElementById('form')
   const $input = document.getElementById('input')
   const $messages = document.getElementById('messages')
+  const $chat = document.getElementById('chat')
+
 
   let user = {
    name: "",
@@ -158,19 +179,22 @@
   }
 
   const beep = new Audio('./assets/beep.mp3');
-  beep.volume = 0.75
+  beep.volume = 0.5
 
   socket.on('chat message', (data) => {
    if (data.name === user.name) {
-    const item = `<div class='chat-me'><p>${data.msg.text}<br/><small>${data.msg.date}</small></p></div>`
+    const item = `<div class='chat me'><p>${data.msg.text}</p>
+     <p class='chat-date'><small>${data.msg.date}</small></p></div>`
     $messages.insertAdjacentHTML('beforeend', item)
+    $chat.scrollTop = $chat.scrollHeight
 
    } else {
-    const item = `<div class='chat-others'><p><strong>${data.name}</strong><br/>
-     ${data.msg.text}<br/>
+    const item = `<div class='chat others'><p><strong>${data.name}</strong><br/>
+     ${data.msg.text}</p>
+     <p class='chat-date'>
      <small>${data.msg.date}</small></p></div>`
     $messages.insertAdjacentHTML('beforeend', item);
-    $messages.scrollTop = $messages.scrollHeight
+    $chat.scrollTop = $chat.scrollHeight
     beep.play();
    }
   })
@@ -187,6 +211,8 @@
     $input.value = ""
    }
   })
+
+
  </script>
 
 
