@@ -155,13 +155,18 @@
 
  <script type="module">
   import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js'
-  const socket = io()
+  const socket = io({
+   auth: {
+    serverOffset: 0
+   }
+  })
 
   const $form = document.getElementById('form')
   const $input = document.getElementById('input')
   const $messages = document.getElementById('messages')
   const $chat = document.getElementById('chat')
 
+  let room = prompt(`Ingrese canal de chat`)
 
   let user = {
    name: "",
@@ -181,12 +186,13 @@
   const beep = new Audio('./assets/beep.mp3');
   beep.volume = 0.5
 
-  socket.on('chat message', (data) => {
+  socket.on('chat message', (data, serverOffset) => {
    if (data.name === user.name) {
     const item = `<div class='chat me'><p>${data.msg.text}</p>
      <p class='chat-date'><small>${data.msg.date}</small></p></div>`
     $messages.insertAdjacentHTML('beforeend', item)
     $chat.scrollTop = $chat.scrollHeight
+    socket.auth.serverOffset = serverOffset
 
    } else {
     const item = `<div class='chat others'><p><strong>${data.name}</strong><br/>
@@ -199,6 +205,14 @@
    }
   })
 
+  socket.on('chat message olds', (msg, serverOffset) => {
+   const item = `<div class='chat others'><p>${msg}</p>
+     </div>`
+   $messages.insertAdjacentHTML('beforeend', item)
+   $chat.scrollTop = $chat.scrollHeight
+   socket.auth.serverOffset = serverOffset
+  });
+
   $form.addEventListener('submit', (e) => {
    e.preventDefault()
 
@@ -207,7 +221,7 @@
     let time = new Date
     user.msg.date = time.toLocaleString([], { hour: "2-digit", minute: "2-digit" })
 
-    socket.emit('chat message', user)
+    socket.emit('chat message', user, room)
     $input.value = ""
    }
   })

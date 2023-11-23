@@ -13,7 +13,8 @@
   "author": "Sergio Ortega dev",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "16.3.1",
+    "@libsql/client": "^0.4.0-pre.2",
+    "dotenv": "^16.3.1",
     "express": "4.18.2",
     "morgan": "1.10.0",
     "socket.io": "4.7.2"
