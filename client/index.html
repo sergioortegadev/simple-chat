@@ -6,7 +6,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
  <meta name="HandheldFriendly" content="true" />
  <link rel="icon" type="image/x-icon" href="./favicon.ico">
- <title>👨🏻‍💻 ilPostino - mensajes directos | Sergio Ortega dev</title>
+ <title>👨🏻‍💻 SimpleChat - mensajes directos | Sergio Ortega dev</title>
 
 
  <style>
@@ -124,14 +124,48 @@
    display: none;
   }
 
+  #developer {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 1fr 1fr;
+   margin-top: .5rem;
+   border: 1px solid #ccc;
+   border-radius: .5rem;
+   overflow: hidden;
+   width: 95vw;
+   height: 100%;
+   position: relative;
+   overflow-y: scroll;
+   scroll-behavior: smooth;
+   transition: height 0.3s;
+  }
+
+  #developer * {
+   text-decoration: none;
+   color: inherit;
+  }
+
+  #developer>* {
+   margin: 0 .5rem;
+   padding: 0;
+   text-align: center;
+  }
+
+  #developer h5 {
+   grid-column: 1/3;
+  }
+
   @media screen and (max-height: 100px) {
+
    #chat {
     height: 50vh;
    }
   }
 
   @media screen and (min-width: 800px) {
-   #chat {
+
+   #chat,
+   #developer {
     width: 24rem;
    }
 
@@ -166,7 +200,7 @@
   const $messages = document.getElementById('messages')
   const $chat = document.getElementById('chat')
 
-  let room = prompt(`Ingrese canal de chat`)
+  let room = "canal1" //prompt(`Ingrese canal de chat`)
 
   let user = {
    name: "",
@@ -241,6 +275,17 @@
    <input autofocus id="input" type="text" name="message" placeholder="Escribe un mensaje" autocomplete="off">
    <button type="submit">▶</button>
   </form>
+ </section>
+
+ <section id="developer">
+  <h6><a href="https://github.com/sergioortegadev/simple-chat" rel="noopener noreferrer" target="_blank">GitHub repo
+   </a>
+   <h6><a href="https://sergioortega.com.ar/#/portfolio" rel="noopener noreferrer" target="_blank">Return to
+     Portfolio</a>
+   </h6>
+   <h5><a href="https://sergioortega.com.ar" rel="noopener noreferrer" target="_blank">SimpleChat developed by Sergio
+     Ortega</a>
+   </h5>
  </section>
 
 </body>
