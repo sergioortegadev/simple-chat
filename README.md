@@ -1,6 +1,7 @@
 # Simple Chat microservice
 
 ### Chat microservice based on node.js and express, with websockets.
+![simple chat UI](simple-chat.jpg)
 
 ### Message persistence in database.
 
