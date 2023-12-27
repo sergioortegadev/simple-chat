@@ -241,7 +241,7 @@
 
   socket.on('chat message olds', (msg, serverOffset) => {
    const item = `<div class='chat others'><p>${msg}</p>
-     </div>`
+       </div>`
    $messages.insertAdjacentHTML('beforeend', item)
    $chat.scrollTop = $chat.scrollHeight
    socket.auth.serverOffset = serverOffset
@@ -279,13 +279,13 @@
 
  <section id="developer">
   <h6><a href="https://github.com/sergioortegadev/simple-chat" rel="noopener noreferrer" target="_blank">GitHub repo
-   </a>
-   <h6><a href="https://sergioortega.com.ar/#/portfolio" rel="noopener noreferrer" target="_blank">Return to
-     Portfolio</a>
-   </h6>
-   <h5><a href="https://sergioortega.com.ar" rel="noopener noreferrer" target="_blank">SimpleChat developed by Sergio
-     Ortega</a>
-   </h5>
+   </a></h6>
+  <h6><a href="https://sergioortega.com.ar/#/portfolio" rel="noopener noreferrer" target="_blank">Return to
+    Portfolio</a>
+  </h6>
+  <h5><a href="https://sergioortega.com.ar" rel="noopener noreferrer" target="_blank">SimpleChat developed by Sergio
+    Ortega</a>
+  </h5>
  </section>
 
 </body>

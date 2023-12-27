@@ -3,18 +3,30 @@ import express from "express";
 import logger from "morgan";
 import { Server } from "socket.io";
 import { createServer } from "node:http";
+import db from "./src/config/turso.js";
 
 const app = express();
 const port = process.env.PORT ?? 3000;
 
 const server = createServer(app);
-const io = new Server(server, {
-  connectionStateRecovery: {
-    maxDisconnectionDuration: 2 * 60 * 1000,
 
-    skipMiddlewares: true,
+const allowedOrigins = ["http://192.168.100.140:3000", "https://sergioortega.com.ar/chat/"];
+
+const io = new Server(
+  server,
+  {
+    cors: {
+      origin: allowedOrigins,
+    },
   },
-});
+  {
+    connectionStateRecovery: {
+      maxDisconnectionDuration: 2 * 60 * 1000,
+
+      skipMiddlewares: true,
+    },
+  }
+);
 
 io.on("connection", async (socket) => {
   socket.on("disconnect", () => {});
