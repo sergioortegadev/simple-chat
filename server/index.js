@@ -10,7 +10,11 @@ const port = process.env.PORT ?? 3000;
 
 const server = createServer(app);
 
-const allowedOrigins = ["http://192.168.100.140:3000", "https://sergioortega.com.ar/"];
+const allowedOrigins = [
+  "http://192.168.100.140:3000",
+  "https://sergioortega.com.ar/",
+  "https://sergioortega.com.ar/chat/",
+];
 
 const io = new Server(
   server,
