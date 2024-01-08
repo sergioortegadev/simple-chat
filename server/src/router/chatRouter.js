@@ -12,7 +12,7 @@ const ACCEPTED_ORIGINS = [
 router.get("/", (req, res) => {
   const origin = req.header("origin");
   if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
-    res.header("Access-Control-Allow-Origin", origin);
+    res.header("Access-Control-Allow-Origin", "*");
   }
 
   res.sendFile(process.cwd() + "/client/index.html");
