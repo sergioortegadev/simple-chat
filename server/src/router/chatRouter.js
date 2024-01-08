@@ -3,6 +3,8 @@ import chatController from "../controllers/chatController.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+
   res.sendFile(process.cwd() + "/client/index.html");
 });
 
