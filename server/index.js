@@ -11,9 +11,9 @@ const port = process.env.PORT ?? 3000;
 const server = createServer(app);
 
 const allowedOrigins = [
-  "http://192.168.100.140:3000",
   "https://sergioortega.com.ar/",
   "https://sergioortega.com.ar/chat/",
+  "http://192.168.100.140:3000",
 ];
 
 const io = new Server(
@@ -21,6 +21,7 @@ const io = new Server(
   {
     cors: {
       origin: allowedOrigins,
+      methods: ["GET", "POST"],
     },
   },
   {

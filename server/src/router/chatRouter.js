@@ -2,8 +2,18 @@ import express from "express";
 import chatController from "../controllers/chatController.js";
 const router = express.Router();
 
+const ACCEPTED_ORIGINS = [
+  "http://192.168.100.140:3000",
+  "http://192.168.100.140:2850",
+  "https://sergioortega.com.ar/",
+  "https://sergioortega.com.ar/chat/",
+];
+
 router.get("/", (req, res) => {
-  res.header("Access-Control-Allow-Origin", "*");
+  const origin = req.header("origin");
+  if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
+    res.header("Access-Control-Allow-Origin", origin);
+  }
 
   res.sendFile(process.cwd() + "/client/index.html");
 });
