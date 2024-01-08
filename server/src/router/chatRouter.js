@@ -3,6 +3,7 @@ import chatController from "../controllers/chatController.js";
 const router = express.Router();
 
 const ACCEPTED_ORIGINS = [
+  "http://localhost:3000",
   "http://192.168.100.140:3000",
   "http://192.168.100.140:2850",
   "https://sergioortega.com.ar/",
@@ -10,9 +11,10 @@ const ACCEPTED_ORIGINS = [
 ];
 
 router.get("/", (req, res) => {
-  const origin = req.header("origin");
+  const origin = req.header("Origin");
   if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", origin);
+    console.log("postman");
   }
 
   res.sendFile(process.cwd() + "/client/index.html");
