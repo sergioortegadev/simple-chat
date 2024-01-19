@@ -8,32 +8,17 @@ import db from "./src/config/turso.js";
 const app = express();
 const port = process.env.PORT ?? 3000;
 
-app.use(express.static("./client"));
+app.use(express.static("./frontend/dist"));
 
 const server = createServer(app);
 
-const allowedOrigins = [
-  "https://sergioortega.com.ar/",
-  "https://sergioortega.com.ar/chat/",
-  "http://192.168.100.140:3000",
-  "http://localhost:3000",
-];
+const io = new Server(server, {
+  connectionStateRecovery: {
+    maxDisconnectionDuration: 2 * 60 * 1000,
 
-const io = new Server(
-  server,
-  {
-    cors: {
-      origin: allowedOrigins,
-    },
+    skipMiddlewares: true,
   },
-  {
-    connectionStateRecovery: {
-      maxDisconnectionDuration: 2 * 60 * 1000,
-
-      skipMiddlewares: true,
-    },
-  }
-);
+});
 
 io.on("connection", async (socket) => {
   socket.on("disconnect", () => {});

@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
     console.log("postman" + origin);
   }
 
-  res.sendFile(process.cwd() + "/client/index.html");
+  res.sendFile(process.cwd() + "/frontend/dist/index.html");
 });
 
 export default { router, chatController };
