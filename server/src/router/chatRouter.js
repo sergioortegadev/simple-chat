@@ -13,19 +13,11 @@ const ACCEPTED_ORIGINS = [
 router.get("/", (req, res) => {
   const origin = req.header("Origin");
   if (ACCEPTED_ORIGINS.includes(origin) || !origin) {
-    res.header("Access-Control-Allow-Origin", origin);
-    console.log("postman");
+    res.header("Access-Control-Allow-Origin", origin + "chat/");
+    console.log("postman" + origin);
   }
 
   res.sendFile(process.cwd() + "/client/index.html");
-});
-
-router.get("/assets/beep.mp3", (req, res) => {
-  res.sendFile(process.cwd() + "/client/assets/beep.mp3");
-});
-
-router.get("/assets/favicon.ico", (req, res) => {
-  res.sendFile(process.cwd() + "/client/assets/favicon.ico");
 });
 
 export default { router, chatController };
