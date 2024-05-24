@@ -1,6 +1,7 @@
 # Simple Chat microservice
 
 ### Chat microservice based on node.js and express, with websockets.
+
 ![simple chat UI](simple-chat.jpg)
 
 ### Message persistence in database.
@@ -15,4 +16,8 @@
 
 ---
 
-### You can see a working example [here](https://simplechat-70s3qzep.b4a.run/). Please be patient when loading as sometimes the server is asleep.
+### You can see a working example [here](https://sergioortega.com.ar/#/portfolio). Please be patient when loading as sometimes the server is asleep.
+
+#### common troubleshooting:
+
+##### If the container does not deploy successfully, check the DB's operational status in Turso.
